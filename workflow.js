@@ -1,8 +1,6 @@
 import { msg } from './utils.js';
 
-export const workflow =
-    ({ config, utils }) =>
-    (cmdLine) => {
+export function workflow ({ config, utils }, cmdLine) {
         const [cmd, ...args] = parseCmdLine(cmdLine);
 
         const handlers = {
@@ -28,6 +26,7 @@ function startTask({ config, utils }, taskId) {
     msg('STARTING TASK:', taskId);
     updateOrigin({ config, utils });
     copyOriginToTaskDir({ config, utils }, taskId);
+    checkoutTaskBranch({ config, utils }, taskId);
     installDeps({ config, utils }, taskId);
 
     msg('TASK DIR READY:', utils.resolvePath(taskId));
@@ -61,6 +60,14 @@ function gitPull({ config, utils }) {
 
 function copyOriginToTaskDir({ config, utils }, taskId) {
     utils.bash(`cp -r ${config.originDir} ${taskId}`);
+}
+
+function checkoutTaskBranch({config, utils}, taskId) {
+    const branchName = config.branches.inLowerCase ?
+        taskId.toLowerCase() : taskId;
+
+    msg('CHECKING CREATING BRANCH:', branchName)
+    utils.bash(`cd ${taskId} && git checkout -b ${branchName}`);
 }
 
 function installDeps({ config, utils }, taskId) {

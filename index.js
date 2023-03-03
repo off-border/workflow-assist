@@ -4,4 +4,4 @@ import { workflow } from './workflow.js';
 
 const cmd = process.argv.slice(2).join(' ');
 
-workflow({ config, utils })(cmd);
+workflow({ config, utils }, cmd);

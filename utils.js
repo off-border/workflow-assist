@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import fs from 'fs'
+import fs from 'fs';
 import path from 'path';
 
 export function bash(cmd) {
@@ -25,9 +25,9 @@ export function createDir(dir) {
 }
 
 export function createDirNotExist(dir) {
-    const fullPath = resolvePath(dir)
+    const fullPath = resolvePath(dir);
     if (!dirExists(fullPath)) {
-        createDir(fullPath)
+        createDir(fullPath);
     }
 }
 
@@ -36,9 +36,17 @@ export function resolvePath(dir) {
         return path.join(process.env.HOME, dir.slice(1));
     }
 
-    return path.resolve(dir)
+    return path.resolve(dir);
 }
 
 export function msg(...args) {
+    if (isTest()) {
+        return;
+    }
+
     console.log('\n', ...args);
+}
+
+function isTest() {
+    return process.env.NODE_ENV === 'test';
 }

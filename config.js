@@ -3,7 +3,7 @@ export default {
     rootDir: '~/tmp/tasks-dir',
     originDir: ".origin",
     branches: {
-        inLowerCase: false,
+        inLowerCase: true,
     },
     commands: {
         installDeps: 'yarn'
