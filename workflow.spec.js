@@ -34,10 +34,7 @@ const setup = ({
         },
     };
 
-    const run = (cmd) => {
-        workflow({ config: tunedConfig, utils }, cmd);
-    };
-
+    const run = (cmd) => workflow({ config: tunedConfig, utils }, cmd);
     const getShell = () => shellCommands;
 
     return {
