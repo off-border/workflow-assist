@@ -35,7 +35,7 @@ export function createHelpers({ config, utils, taskId }) {
         utils.bash(`cp -r ${config.originDir} ${taskId}`);
     }
 
-    function checkoutTaskBranch() {
+    function createTaskBtanch() {
         const branchName = config.branches.inLowerCase
             ? taskId.toLowerCase()
             : taskId;
@@ -54,7 +54,7 @@ export function createHelpers({ config, utils, taskId }) {
         isTaskDirExists,
         updateOrigin,
         copyOriginToTaskDir,
-        checkoutTaskBranch,
+        createTaskBtanch,
         installDeps,
     };
 }

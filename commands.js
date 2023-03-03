@@ -13,7 +13,7 @@ export function createCommands({ config, utils }) {
         msg('STARTING TASK:', taskId);
         h.updateOrigin();
         h.copyOriginToTaskDir();
-        h.checkoutTaskBranch();
+        h.createTaskBtanch();
         h.installDeps();
 
         msg('TASK DIR READY:', utils.resolvePath(taskId));
