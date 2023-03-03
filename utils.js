@@ -7,17 +7,36 @@ export function bash(cmd) {
 }
 
 export function setWorkingDir(dir) {
-    console.log('---setWorkingDir', dir);
+    const fullPath = resolvePath(dir);
+    console.log('---setWorkingDir', fullPath);
     
-    process.chdir(path.resolve(dir));
+    process.chdir(fullPath);
 }
 
 export function dirExists(dir) {
-    return fs.existsSync(dir)
+    const fullPath = resolvePath(dir);
+    return fs.existsSync(fullPath);
+}
+
+export function createDir(dir) {
+    const fullPath = resolvePath(dir);
+    console.log('---creating dir:', fullPath);
+    
+
+    bash(`mkdir ${fullPath}`);
 }
 
 export function createDirNotExist(dir) {
-    if (!dirExists) {
-        bash(`mdkir ${dir}`);
+    const fullPath = resolvePath(dir)
+    if (!dirExists(fullPath)) {
+        createDir(fullPath)
     }
+}
+
+function resolvePath(dir) {
+    if (dir[0] === '~') {
+        return path.join(process.env.HOME, dir.slice(1));
+    }
+
+    return path.resolve(dir)
 }

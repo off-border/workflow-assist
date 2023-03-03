@@ -1,6 +1,6 @@
 export default {
-    repo: "ssh://git@test-github.com:2022/some-user/test-repo.git",
-    rootDir: '~/workflow',
+    repo: "git@github.com:off-border/workflow-js.git",
+    rootDir: '~/tasks-dir',
     originDir: ".origin",
     commands: {
         installDeps: 'make install'
