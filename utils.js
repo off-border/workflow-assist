@@ -3,13 +3,13 @@ import fs from 'fs'
 import path from 'path';
 
 export function bash(cmd) {
+    msg(cmd);
     return execSync(cmd, { encoding: 'utf-8' });
 }
 
 export function setWorkingDir(dir) {
     const fullPath = resolvePath(dir);
-    console.log('---setWorkingDir', fullPath);
-    
+    msg('WORKING DIR:', fullPath);
     process.chdir(fullPath);
 }
 
@@ -20,9 +20,7 @@ export function dirExists(dir) {
 
 export function createDir(dir) {
     const fullPath = resolvePath(dir);
-    console.log('---creating dir:', fullPath);
-    
-
+    msg('CREATING DIR:', fullPath);
     bash(`mkdir ${fullPath}`);
 }
 
@@ -33,10 +31,14 @@ export function createDirNotExist(dir) {
     }
 }
 
-function resolvePath(dir) {
+export function resolvePath(dir) {
     if (dir[0] === '~') {
         return path.join(process.env.HOME, dir.slice(1));
     }
 
     return path.resolve(dir)
+}
+
+export function msg(...args) {
+    console.log('\n', ...args);
 }
