@@ -1,8 +1,10 @@
 import { msg } from './utils.js';
 import { createHelpers } from './helpers.js';
+import { createCommitCommand } from './commands/cmd-commit.js';
 
 export function createCommands({ config, utils }) {
     function startTask(taskId) {
+        msg('STARGING TASK:', taskId)
         const h = createHelpers({ config, utils, taskId });
 
         if (h.isTaskDirExists()) {
@@ -19,7 +21,18 @@ export function createCommands({ config, utils }) {
         msg('TASK DIR READY:', utils.resolvePath(taskId));
     }
 
+    // function commit(...args) {
+    //     msg('COMMITTING');
+
+    //     if (h.isTaskDir()) {
+    //         msg('ERROR: not in a task dir');
+    //     }
+    // }
+
+    const commit = createCommitCommand({config, utils});
+
     return {
         startTask,
+        commit,
     };
 }

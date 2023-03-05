@@ -11,9 +11,11 @@ export function workflow ({ config, utils }, cmdLine) {
         const { parseCmdLine } = createHelpers({ config, utils })
         const [cmd, ...args] = parseCmdLine(cmdLine);
         
-        const { startTask } = createCommands({ config, utils });
+        const { startTask, commit } = createCommands({ config, utils });
+        
         const commands = {
             start: startTask,
+            commit,
         };
 
         commands[cmd](...args);
