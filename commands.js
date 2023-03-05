@@ -1,6 +1,7 @@
 import { msg } from './utils.js';
 import { createHelpers } from './helpers.js';
 import { createCommitCommand } from './commands/cmd-commit.js';
+import { createApi } from './commands/api.js';
 
 export function createCommands({ config, utils }) {
     function startTask(taskId) {
@@ -29,7 +30,9 @@ export function createCommands({ config, utils }) {
     //     }
     // }
 
-    const commit = createCommitCommand({config, utils});
+    const api = createApi({ config });
+
+    const commit = createCommitCommand({api});
 
     return {
         startTask,

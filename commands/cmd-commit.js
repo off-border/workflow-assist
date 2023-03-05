@@ -1,18 +1,20 @@
-import { createHelpers } from "../helpers";
-
-export function createCommitCommand({ config, utils }) {
-    // console.log('---createCommitCommand', );
-    const h = createHelpers({ config, utils });
-    
+export function createCommitCommand({ api }) {
     return function commit(message) {
-        console.log('---COMMIT', );
+        api.msg('COMMITTING');
+
         if (!message) {
-            return {
-                error: 'commit message not found'
-            }
+            api.msg('ERROR: commit message not found');
+            return; 
         }
 
-        const commitMessage = h.getCurrentTaskId();
+        const taskId = api.git.getCurrentTaskId();
+        const commitMessage = `${taskId} | ${message}`;
+
+        api.git.commit(commitMessage);
+
+        return {
+            commitMessage,
+        }
         
     }
 }
