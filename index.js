@@ -1,6 +1,5 @@
-import { createApi } from './api.js';
+import { createApi } from './api/api.js';
 import config from './config.js';
-import * as utils from './utils.js';
 import { workflow } from './workflow.js';
 
 const api = createApi({ config });

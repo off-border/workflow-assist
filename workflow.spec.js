@@ -1,5 +1,5 @@
 import jest from 'jest-mock';
-import { createApi } from './api.js';
+import { createApi } from './api/api.js';
 import { workflow } from './workflow.js';
 
 const config = {

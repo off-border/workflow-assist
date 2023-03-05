@@ -1,9 +1,9 @@
-import { createFsApi } from './api/fs.js';
-import { msg } from './api/msg.js';
-import { bash } from './api/bash.js';
-import { createGitApi } from './api/git.js';
-import { createTasksApi } from './api/tasks.js';
-import { createStepsApi } from './api/steps.js';
+import { createFsApi } from './fs.js';
+import { msg } from './msg.js';
+import { bash } from './bash.js';
+import { createGitApi } from './git.js';
+import { createTasksApi } from './tasks.js';
+import { createStepsApi } from './steps.js';
 
 export function createApi({ config }) {
     let api = {
