@@ -1,3 +1,5 @@
+import jest from 'jest-mock';
+import { createApi } from './api.js';
 import { workflow } from './workflow.js';
 
 const config = {
@@ -14,18 +16,6 @@ const setup = ({
     taskDirExists = false,
     lowerCaseBranches = false,
 } = {}) => {
-    const shellCommands = [];
-
-    const utils = {
-        createDirNotExist: () => {},
-        setWorkingDir: () => {},
-        resolvePath: (dir) => dir,
-        bash: (cmd) => shellCommands.push(cmd),
-        dirExists: (path) => {
-            return path === config.originDir ? originDirExists : taskDirExists;
-        },
-    };
-
     const tunedConfig = {
         ...config,
         branches: {
@@ -34,12 +24,19 @@ const setup = ({
         },
     };
 
-    const run = (cmd) => workflow({ config: tunedConfig, utils }, cmd);
-    const getShell = () => shellCommands;
+    const api = createApi({ config: tunedConfig });
 
+    api.bash = jest.fn();
+    api.fs = {
+        ...api.fs,
+        dirExists: (path) =>
+            path === '.origin' ? originDirExists : taskDirExists,
+    };
+
+    const run = (cmd) => workflow({ config: tunedConfig, api }, cmd);
     return {
         run,
-        getShell,
+        api,
     };
 };
 
@@ -47,75 +44,65 @@ describe('workflow', () => {
     describe('start TASK-1234', () => {
         describe('if task dir exists', () => {
             it('- do nothing', () => {
-                const { run, getShell } = setup({ taskDirExists: true });
+                const { run, api } = setup({ taskDirExists: true });
 
                 run('start TASK-1234');
 
-                expect(getShell()).toEqual([]);
+                expect(api.bash).not.toHaveBeenCalled();
             });
         });
         describe('update .origin:', () => {
             describe('if .origin doesn`t exist', () => {
                 it('- clone repo', () => {
-                    const { run, getShell } = setup({
+                    const { run, api } = setup({
                         originDirExists: false,
                     });
-
                     run('start TASK-1234');
-
-                    expect(getShell()[0]).toEqual(
+                    expect(api.bash).toHaveBeenCalledWith(
                         `git clone ssh://git@test-github.com:2022/some-user/test-repo.git .origin`
                     );
                 });
             });
-
             describe('if .origin exists', () => {
                 it('- git pull', () => {
-                    const { run, getShell } = setup();
-
+                    const { run, api } = setup();
                     run('start TASK-1234');
-
-                    expect(getShell()[0]).toEqual(`cd .origin && git pull`);
+                    expect(api.bash).toHaveBeenCalledWith(
+                        `cd .origin && git pull`
+                    );
                 });
             });
         });
 
         describe('make working copy:', () => {
             it('- copy origin', () => {
-                const { run, getShell } = setup();
-
+                const { run, api } = setup({});
                 run('start TASK-1234');
-
-                expect(getShell()[1]).toEqual(`cp -r .origin TASK-1234`);
+                expect(api.bash).toHaveBeenCalledWith(
+                    `cp -r .origin TASK-1234`
+                );
             });
-
             it('- create task branch', () => {
-                const { run, getShell } = setup();
-
+                const { run, api } = setup();
                 run('start TASK-1234');
-
-                expect(getShell()[2]).toEqual(
+                expect(api.bash).toHaveBeenCalledWith(
                     `cd TASK-1234 && git checkout -b TASK-1234`
                 );
             });
-
             it('- install deps', () => {
-                const { run, getShell } = setup();
-
+                const { run, api } = setup();
                 run('start TASK-1234');
-
-                expect(getShell()[3]).toEqual(`cd TASK-1234 && make install`);
+                expect(api.bash).toHaveBeenCalledWith(
+                    `cd TASK-1234 && make install`
+                );
             });
-
             describe('if config.branches.inLowerCase: true', () => {
                 it('- create lowercase branch', () => {
-                    const { run, getShell } = setup({
+                    const { run, api } = setup({
                         lowerCaseBranches: true,
                     });
-
                     run('start TASK-1234');
-
-                    expect(getShell()[2]).toEqual(
+                    expect(api.bash).toHaveBeenCalledWith(
                         `cd TASK-1234 && git checkout -b task-1234`
                     );
                 });

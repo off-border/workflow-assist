@@ -1,13 +1,13 @@
 export function createGitApi({ api }) {
-    function updateOrigin() {
-        if (isOriginDirExists()) {
-            msg('UPDATING ORIGIN:', config.originDir);
-            gitPull();
-        } else {
-            msg('CLONING REPO:', config.repo, 'to', config.originDir);
-            cloneOrigin();
-        }
-    }
+    // function updateOrigin() {
+    //     if (isOriginDirExists()) {
+    //         msg('UPDATING ORIGIN:', config.originDir);
+    //         gitPull();
+    //     } else {
+    //         msg('CLONING REPO:', config.repo, 'to', config.originDir);
+    //         cloneOrigin();
+    //     }
+    // }
 
     function cloneOrigin() {
         utils.bash(`git clone ${config.repo} ${config.originDir}`);
@@ -17,14 +17,14 @@ export function createGitApi({ api }) {
         utils.bash('cd .origin && git pull');
     }
 
-    function createTaskBtanch() {
-        const branchName = config.branches.inLowerCase
-            ? taskId.toLowerCase()
-            : taskId;
+    // function createTaskBtanch() {
+    //     const branchName = config.branches.inLowerCase
+    //         ? taskId.toLowerCase()
+    //         : taskId;
 
-        msg('CHECKING CREATING BRANCH:', branchName);
-        utils.bash(`cd ${taskId} && git checkout -b ${branchName}`);
-    }
+    //     msg('CHECKING CREATING BRANCH:', branchName);
+    //     utils.bash(`cd ${taskId} && git checkout -b ${branchName}`);
+    // }
 
     function getCurrentBranch() {
         return api
@@ -40,10 +40,25 @@ export function createGitApi({ api }) {
         api.bash(`git commit -m "${message}"`);
     }
 
+    function clone(repo, to) {
+        api.bash(`git clone ${repo} ${to}`);
+    }
+
+    function pull(path) {
+        api.bash(`cd ${path} && git pull`);
+    }
+
+    function createBranch(path, branchName) {
+        api.bash(`cd ${path} && git checkout -b ${branchName}`);
+    }
+
     return {
-        updateOrigin,
-        createTaskBtanch,
+        // updateOrigin,
+        // createTaskBtanch,
         getCurrentTaskId,
+        clone,
+        pull,
         commit,
+        createBranch,
     };
 }
