@@ -2,7 +2,6 @@ import { createCommands } from './commands.js';
 
 export function workflow({ config, api }, cmdLine) {
     api.fs.createDirNotExist(config.rootDir);
-    // utils.setWorkingDir(config.rootDir);
 
     const [cmd, ...args] = cmdLine.split(' ');
 

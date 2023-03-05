@@ -43,5 +43,6 @@ export function createFsApi({ api }) {
         createDirNotExist,
         resolvePath,
         copyDir,
+        resolve: (root, dir) => path.join(resolvePath(root), dir),
     };
 }

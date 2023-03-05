@@ -1,34 +1,43 @@
 export function createStepsApi({ api, config }) {
+    function getOriginDir() {
+        return api.fs.resolve(config.rootDir, config.originDir);
+    }
+
+    function getTaskDir(taskId) {
+        return api.fs.resolve(config.rootDir, taskId);
+    }
+
+    // const originDir = getOriginDir();
+
     function isOriginDirExists() {
-        return api.fs.dirExists(config.originDir);
+        return api.fs.dirExists(getOriginDir());
     }
 
     function updateOrigin() {
         if (isOriginDirExists()) {
-            api.msg('UPDATING ORIGIN:', config.originDir);
-            api.git.pull(config.originDir);
+            api.msg('UPDATING ORIGIN:', getOriginDir());
+            api.git.pull(getOriginDir());
         } else {
-            api.msg('CLONING REPO:', config.repo, 'to', config.originDir);
-            api.git.clone(config.repo, config.originDir);
+            api.msg('CLONING REPO:', config.repo, 'to', getOriginDir());
+            api.git.clone(config.repo, getOriginDir());
         }
     }
 
     function copyOriginToTaskDir(taskId) {
-        api.fs.copyDir(config.originDir, taskId);
+        api.fs.copyDir(getOriginDir(), getTaskDir(taskId));
     }
 
     function createTaskBranch(taskId) {
-        api.git.createBranch(taskId);
         const branchName = config.branches.inLowerCase
             ? taskId.toLowerCase()
             : taskId;
 
         api.msg('CREATING BRANCH:', branchName);
-        api.git.createBranch(taskId, branchName);
+        api.git.createBranch(getTaskDir(taskId), branchName);
     }
 
     function installDeps(taskId) {
-        api.bash(`cd ${taskId} && ${config.commands.installDeps}`);
+        api.bash(`cd ${getTaskDir(taskId)} && ${config.commands.installDeps}`);
     }
 
     return {
