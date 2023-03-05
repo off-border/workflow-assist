@@ -7,7 +7,7 @@ export function createCommitCommand({ api }) {
             return;
         }
 
-        const taskId = api.git.getCurrentTaskId();
+        const taskId = api.tasks.getCurrentTaskId();
         const commitMessage = `${taskId} | ${message}`;
 
         api.git.commit(commitMessage);

@@ -3,7 +3,12 @@ export function createTasksApi({ api }) {
         return api.fs.dirExists(taskId);
     }
 
+    function getCurrentTaskId() {
+        return api.git.getCurrentBranch().toUpperCase();
+    }
+
     return {
         isTaskDirExists,
+        getCurrentTaskId,
     };
 }

@@ -3,8 +3,10 @@ import { createCommitCommand } from './cmd-commit';
 
 const setup = ({ taskId } = {}) => {
     const api = {
-        git: {
+        tasks: {
             getCurrentTaskId: () => taskId,
+        },
+        git: {
             commit: jest.fn(),
         },
         msg: jest.fn(),
@@ -23,7 +25,9 @@ describe('commit', () => {
         it('- show error', () => {
             const { commit, api } = setup();
             commit();
-            expect(api.msg).toHaveBeenCalledWith('ERROR: commit message not found');
+            expect(api.msg).toHaveBeenCalledWith(
+                'ERROR: commit message not found'
+            );
         });
 
         it('- skip commit', () => {
@@ -40,19 +44,20 @@ describe('commit', () => {
                 const { commitMessage } = commit('some message');
                 expect(commitMessage).toContain('TASK-1234');
             });
-    
+
             it('- append provided commit message', () => {
                 const { commit } = setup({ taskId: 'TASK-1234' });
                 const { commitMessage } = commit('some message');
                 expect(commitMessage).toContain('some message');
             });
         });
-        
 
         it('- make commit', () => {
             const { commit, api } = setup({ taskId: 'TASK-1234' });
             commit('some message');
-            expect(api.git.commit).toHaveBeenCalledWith('TASK-1234 | some message');
+            expect(api.git.commit).toHaveBeenCalledWith(
+                'TASK-1234 | some message'
+            );
         });
     });
 });
