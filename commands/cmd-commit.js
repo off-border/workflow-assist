@@ -4,7 +4,7 @@ export function createCommitCommand({ api }) {
 
         if (!message) {
             api.msg('ERROR: commit message not found');
-            return; 
+            return;
         }
 
         const taskId = api.git.getCurrentTaskId();
@@ -14,7 +14,6 @@ export function createCommitCommand({ api }) {
 
         return {
             commitMessage,
-        }
-        
-    }
+        };
+    };
 }

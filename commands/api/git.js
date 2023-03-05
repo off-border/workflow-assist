@@ -27,7 +27,9 @@ export function createGitApi({ api }) {
     }
 
     function getCurrentBranch() {
-        return api.bash('git branch --show-current');
+        return api
+            .bash('git branch --show-current', { silent: true })
+            .split('\n')[0];
     }
 
     function getCurrentTaskId() {
@@ -35,8 +37,6 @@ export function createGitApi({ api }) {
     }
 
     function commit(message) {
-        console.log('------- git.commit', message);
-
         api.bash(`git commit -m "${message}"`);
     }
 
