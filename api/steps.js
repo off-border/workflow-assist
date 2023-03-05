@@ -1,10 +1,10 @@
 export function createStepsApi({ api, config }) {
     function getOriginDir() {
-        return api.fs.resolve(config.rootDir, config.originDir);
+        return api.fs.resolveSubdir(config.rootDir, config.originDir);
     }
 
     function getTaskDir(taskId) {
-        return api.fs.resolve(config.rootDir, taskId);
+        return api.fs.resolveSubdir(config.rootDir, taskId);
     }
 
     // const originDir = getOriginDir();

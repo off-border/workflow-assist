@@ -27,7 +27,7 @@ const setup = ({
     const api = createApi({ config: tunedConfig });
 
     api.bash = jest.fn();
-    api.fs.resolve = (path, file) => `${path}/${file}`;
+    api.fs.resolveSubdir = (path, file) => `${path}/${file}`;
     api.fs.dirExists = (path) =>
         path === '~/workflow/.origin' ? originDirExists : taskDirExists;
 
