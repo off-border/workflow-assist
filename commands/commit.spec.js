@@ -1,5 +1,5 @@
 import jest from 'jest-mock';
-import { createCommitCommand } from './cmd-commit';
+import { createCommitCommand } from './commit';
 
 const setup = ({ taskId } = {}) => {
     const api = {
