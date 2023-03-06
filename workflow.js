@@ -1,4 +1,4 @@
-import { createCommands } from './commands.js';
+import { createCommands } from './commands/index.js';
 
 export function workflow({ config, api }, cmdLine) {
     api.fs.createDirNotExist(config.rootDir);

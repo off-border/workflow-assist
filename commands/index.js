@@ -1,5 +1,5 @@
-import { createCommitCommand } from './commands/commit.js';
-import { createStartTaskCommand } from './commands/start-task.js';
+import { createCommitCommand } from './commit.js';
+import { createStartTaskCommand } from './start-task.js';
 
 export function createCommands({ config, api }) {
     const startTask = createStartTaskCommand({ api });
