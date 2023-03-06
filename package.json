@@ -1,7 +1,7 @@
 {
-  "name": "workflow-js",
+  "name": "workflow-assist",
   "version": "1.0.0",
-  "description": "team tasks workflow automation",
+  "description": "tasks development workflow assistant",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
