@@ -1,11 +1,11 @@
 export default {
-    repo: "git@github.com:off-border/workflow-js.git",
+    repo: 'git@github.com:off-border/workflow-assist.git',
     rootDir: '~/tmp/tasks-dir',
-    originDir: ".origin",
+    originDir: '.origin',
     branches: {
         inLowerCase: true,
     },
     commands: {
-        installDeps: 'yarn'
-    }
+        installDeps: 'yarn',
+    },
 };

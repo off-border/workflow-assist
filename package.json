@@ -10,5 +10,10 @@
   },
   "dependencies": {
     "jest": "^29.4.3"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:off-border/workflow-assist.git"
   }
 }
