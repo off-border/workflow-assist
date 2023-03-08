@@ -12,6 +12,7 @@ const config = {
 };
 
 const setup = ({
+    rootDirExists = true,
     originDirExists = true,
     taskDirExists = false,
     lowerCaseBranches = false,
@@ -29,7 +30,11 @@ const setup = ({
     api.bash = jest.fn();
     api.fs.resolveSubdir = (path, file) => `${path}/${file}`;
     api.fs.dirExists = (path) =>
-        path === '~/workflow/.origin' ? originDirExists : taskDirExists;
+        path === '~/workflow'
+            ? rootDirExists
+            : path === '~/workflow/.origin'
+            ? originDirExists
+            : taskDirExists;
 
     const run = (cmd) => workflow({ config: tunedConfig, api }, cmd);
     return {

@@ -1,7 +1,5 @@
-export function createStartTaskCommand({ api }) {
+export function createStartTaskCommand({ api, config }) {
     return function startTask(taskId) {
-        api.msg('STARGING TASK:', taskId);
-
         if (api.tasks.isTaskDirExists(taskId)) {
             api.msg('TASK DIR ALREADY EXISTS:', api.fs.resolvePath(taskId));
             return;
