@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { loadConfig } from './config-loader.js';
 import { createApi } from './api/api.js';
 import { workflow } from './workflow.js';

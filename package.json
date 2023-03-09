@@ -1,19 +1,21 @@
 {
-  "name": "workflow-assist",
-  "version": "1.0.0",
+  "name": "wofo",
+  "version": "1.0.1",
   "description": "tasks development workflow assistant",
-  "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "main": "cli.js",
   "scripts": {
     "test": "yarn node --experimental-vm-modules $(yarn bin jest) --verbose --watch"
   },
-  "dependencies": {
-    "jest": "^29.4.3"
+  "bin": {
+    "wofo": "./cli.js"
   },
-
   "repository": {
     "type": "git",
     "url": "git@github.com:off-border/workflow-assist.git"
+  },
+  "dependencies": {
+    "jest": "^29.4.3"
   }
 }

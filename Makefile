@@ -3,3 +3,6 @@ test: install
 
 install:
 	yarn
+
+link:
+	yarn link
