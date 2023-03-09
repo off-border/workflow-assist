@@ -1,14 +1,14 @@
 export function createCommitCommand({ api }) {
-    return function commit(message) {
+    return function commit(...messageArr) {
         api.msg('COMMITTING');
 
-        if (!message) {
+        if (!messageArr.length) {
             api.msg('ERROR: commit message not found');
             return;
         }
 
         const taskId = api.tasks.getCurrentTaskId();
-        const commitMessage = `${taskId} | ${message}`;
+        const commitMessage = `${taskId} | ${messageArr.join(' ')}`;
 
         api.git.commit(commitMessage);
 

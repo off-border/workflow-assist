@@ -8,6 +8,7 @@ export function workflow({ config, api }, cmdLine) {
     const commands = {
         start: startTask,
         commit,
+        c: commit,
     };
 
     commands[cmd](...args);
