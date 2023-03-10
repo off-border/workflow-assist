@@ -4,9 +4,9 @@
 
 ### Installation
 
-1. create your workflow directore (e.g. ~/tasks)
+1. create your workflow directory (e.g. ~/tasks)
 2. create .workflow.config.js in the workflow dir
-3. put this code in the config file and change settings as you needed
+3. put the following code in the config file and change settings as you needed
 
 ```js
 module.exports = {
@@ -57,12 +57,14 @@ wofo start TASK-1234
 this will:
 
 1. update repository
-   if it's not cloned yet - clone repo
-   if cloned - pull latest changes
-2. copy repo to `~/tasks/TASK-1234` subdir
-3. install dependencies
+   if it's not cloned yet
+    - clone repo
+      if cloned
+    - pull latest changes
+2. copy the repo to `~/tasks/TASK-1234` subdir
+3. install dependencies (using config.commands.installDeps command)
 4. create new branch, named `TASK-1234`
-    - or `task-1234` if lowecase specified in config
+    - or `task-1234` if the lowecase is specified in config
 
 ### make commit
 
