@@ -11,8 +11,10 @@ export function createCommands({ config, api }) {
 
     return {
         help,
-        startTask,
+        start: startTask,
+        s: startTask,
         commit,
+        c: startTask,
         init,
     };
 }
