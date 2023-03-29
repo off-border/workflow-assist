@@ -1,7 +1,7 @@
 {
   "name": "wofo",
   "version": "1.0.2",
-  "description": "tasks development workflow assistant",
+  "description": "Development workflow assistant",
   "license": "MIT",
   "type": "module",
   "main": "cli.js",

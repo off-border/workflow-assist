@@ -37,8 +37,14 @@ export function createStepsApi({ api, config }) {
     }
 
     function installDeps(taskId) {
-        api.msg('INSTALLING DEPS:', branchName);
-        api.bash(`cd ${getTaskDir(taskId)} && ${config.commands.installDeps}`);
+        api.msg('INSTALLING DEPS:', taskId);
+
+        const installDepsCfg = config.commands.installDeps;
+        const isArrayOfStrings = Array.isArray(installDepsCfg);
+        const installDepsCmd = isArrayOfStrings
+            ? installDepsCfg.join(' && ')
+            : installDepsCfg;
+        api.bash(`cd ${getTaskDir(taskId)} && ${installDepsCmd}`);
     }
 
     return {
