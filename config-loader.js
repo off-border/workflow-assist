@@ -16,10 +16,25 @@ export async function loadConfig(cwd = process.env.PWD, requireFile) {
 
 async function searchInTree(dir, file, requireFile) {
     let pathArr = dir.split('/');
-    let config;
+    let config, error;
     while (!config && pathArr.length) {
-        config = await tryRequire(pathArr, CONFIG_NAME, requireFile);
+        ({ config, error } = await tryRequire(
+            pathArr,
+            CONFIG_NAME,
+            requireFile
+        ));
+
+        if (error && !error.code?.includes('ERR_MODULE_NOT_FOUND')) {
+            throw error;
+        }
+
         pathArr.pop();
+    }
+
+    if (error) {
+        console.log('-------------------error');
+
+        throw error;
     }
 
     return config;
@@ -28,9 +43,12 @@ async function searchInTree(dir, file, requireFile) {
 async function tryRequire(dirArr, file, requireFile) {
     if (requireFile) {
         try {
-            return requireFile(path.join(...dirArr, file));
+            const config = await requireFile(path.join(...dirArr, file));
+            console.log('---config', config);
+
+            return { config };
         } catch (e) {
-            return null;
+            return { error: e };
         }
     }
 
@@ -41,9 +59,10 @@ async function tryRequire(dirArr, file, requireFile) {
     const basePath = __dirname;
     let relativePath = path.relative(basePath, absolutePath);
 
-    console.log('\n---fullpath', absolutePath);
-    console.log('---basePath', basePath);
-    console.log('---relativePath', relativePath);
+    // console.log('\n---fullpath', absolutePath);
+    // console.log('---basePath', basePath);
+    // console.log('---relativePath--', relativePath);
+    console.log('--- tryig to load from:', relativePath);
 
     if (relativePath === '.workflow.config.js') {
         relativePath = './.workflow.config.js';
@@ -51,13 +70,8 @@ async function tryRequire(dirArr, file, requireFile) {
 
     try {
         const modul = await import(relativePath);
-        console.log('---loaded module:', modul);
-
-        return modul.default;
-
-        // return createRequire(basePath)(relativePath);
+        return { config: modul.default };
     } catch (e) {
-        console.log('---- not found in:', relativePath);
-        return null;
+        return { error: e };
     }
 }
