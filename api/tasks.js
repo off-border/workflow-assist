@@ -18,8 +18,14 @@ export function createTasksApi({ api, config }) {
         return taskId;
     }
 
+    function getTaskDir(taskId) {
+        const escapedTaskId = taskId.replace(/\//g, '_');
+        return api.fs.resolveSubdir(config.rootDir, escapedTaskId);
+    }
+
     return {
         isTaskDirExists,
         getCurrentTaskId,
+        getTaskDir,
     };
 }

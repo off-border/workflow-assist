@@ -32,8 +32,6 @@ async function searchInTree(dir, file, requireFile) {
     }
 
     if (error) {
-        console.log('-------------------error');
-
         throw error;
     }
 
@@ -44,8 +42,6 @@ async function tryRequire(dirArr, file, requireFile) {
     if (requireFile) {
         try {
             const config = await requireFile(path.join(...dirArr, file));
-            console.log('---config', config);
-
             return { config };
         } catch (e) {
             return { error: e };
@@ -59,10 +55,7 @@ async function tryRequire(dirArr, file, requireFile) {
     const basePath = __dirname;
     let relativePath = path.relative(basePath, absolutePath);
 
-    // console.log('\n---fullpath', absolutePath);
-    // console.log('---basePath', basePath);
-    // console.log('---relativePath--', relativePath);
-    console.log('--- tryig to load from:', relativePath);
+    // console.log('--- tryig to load from:', relativePath);
 
     if (relativePath === '.workflow.config.js') {
         relativePath = './.workflow.config.js';

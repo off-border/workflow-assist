@@ -18,6 +18,7 @@ const setup = ({
         steps: {
             updateOrigin: jest.fn(),
             copyOriginToTaskDir: jest.fn(),
+            checkoutRemoteBranch: jest.fn(),
             createTaskBranch: jest.fn(),
             installDeps: jest.fn(),
         },
@@ -67,5 +68,17 @@ describe('startTask(taskId)', () => {
             startTask('TASK-1234');
             expect(api.steps.installDeps).toHaveBeenCalledWith('TASK-1234');
         });
+    });
+});
+
+describe('startTask(taskId, fromBranch)', () => {
+    it('- derive task from specified remote branch', () => {
+        const { startTask, api } = setup({});
+        startTask('TASK-1234', 'remote-branch');
+
+        expect(api.steps.checkoutRemoteBranch).toHaveBeenCalledWith(
+            'TASK-1234',
+            'remote-branch'
+        );
     });
 });

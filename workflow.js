@@ -5,7 +5,11 @@ export function workflow({ config, api }, cmdLine) {
 
     const commands = createCommands({ config, api });
 
-    const handler = commands[cmd] || commands['help'];
+    const handler = commands[cmd];
 
-    handler(...args);
+    if (handler) {
+        handler(...args);
+    } else {
+        console.log('Unknown command:', cmd);
+    }
 }

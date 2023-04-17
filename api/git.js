@@ -17,6 +17,14 @@ export function createGitApi({ api }) {
         api.bash(`cd ${path} && git pull`);
     }
 
+    function fetch(path, branchName) {
+        api.bash(`cd ${path} && git fetch origin ${branchName}`);
+    }
+
+    function checkout(path, branchName) {
+        api.bash(`cd ${path} && git checkout ${branchName}`);
+    }
+
     function createBranch(path, branchName) {
         api.bash(`cd ${path} && git checkout -b ${branchName}`);
     }
@@ -24,6 +32,8 @@ export function createGitApi({ api }) {
     return {
         clone,
         pull,
+        fetch,
+        checkout,
         commit,
         createBranch,
         getCurrentBranch,

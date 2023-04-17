@@ -13,8 +13,13 @@ const setup = ({ installDeps }) => {
     const api = {
         msg: () => {},
         bash,
-        fs: {
-            resolveSubdir: (dir, subdir) => subdir,
+        fs: { resolveSubdir: (dir, subdir) => subdir },
+        git: {
+            fetch: jest.fn(),
+            checkout: jest.fn(),
+        },
+        tasks: {
+            getTaskDir: (s) => s,
         },
     };
 
@@ -23,11 +28,12 @@ const setup = ({ installDeps }) => {
     return {
         steps,
         bash,
+        api,
     };
 };
 
 describe('api/steps', () => {
-    describe('installDeps', () => {
+    describe('installDeps()', () => {
         describe('if commands.installDeps config provided', () => {
             describe('if is a string', () => {
                 it('execute this line', () => {
@@ -52,6 +58,30 @@ describe('api/steps', () => {
                     );
                 });
             });
+        });
+    });
+
+    describe('checkoutRemoteBranch()', () => {
+        it('- fetch remote branch', () => {
+            const { steps, api } = setup({});
+
+            steps.checkoutRemoteBranch('task-1234', 'remote-branch');
+
+            expect(api.git.fetch).toHaveBeenCalledWith(
+                'task-1234',
+                'remote-branch'
+            );
+        });
+
+        it('- checkout the remote branch', () => {
+            const { steps, api } = setup({});
+
+            steps.checkoutRemoteBranch('task-1234', 'remote-branch');
+
+            expect(api.git.checkout).toHaveBeenCalledWith(
+                'task-1234',
+                'remote-branch'
+            );
         });
     });
 });

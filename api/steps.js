@@ -1,10 +1,8 @@
 export function createStepsApi({ api, config }) {
+    const getTaskDir = api.tasks.getTaskDir;
+
     function getOriginDir() {
         return api.fs.resolveSubdir(config.rootDir, config.originDir);
-    }
-
-    function getTaskDir(taskId) {
-        return api.fs.resolveSubdir(config.rootDir, taskId);
     }
 
     // const originDir = getOriginDir();
@@ -25,6 +23,12 @@ export function createStepsApi({ api, config }) {
 
     function copyOriginToTaskDir(taskId) {
         api.fs.copyDir(getOriginDir(), getTaskDir(taskId));
+    }
+
+    function checkoutRemoteBranch(taskId, remoteBranch) {
+        api.msg('CHECKKINT OUT BRANCH:', taskId);
+        api.git.fetch(getTaskDir(taskId), remoteBranch);
+        api.git.checkout(getTaskDir(taskId), remoteBranch);
     }
 
     function createTaskBranch(taskId) {
@@ -51,6 +55,7 @@ export function createStepsApi({ api, config }) {
         updateOrigin,
         copyOriginToTaskDir,
         createTaskBranch,
+        checkoutRemoteBranch,
         installDeps,
     };
 }
