@@ -2,11 +2,54 @@
 
 ## Usage
 
+### start new task:
+
+```bash
+wofo start TASK-1234
+```
+
+this will:
+
+1. update repository
+   if it's not cloned yet
+    - clone repo
+      if cloned
+    - pull latest changes
+2. copy the repo to `~/tasks/TASK-1234` subdir
+3. install dependencies (using config.commands.installDeps command)
+4. create new branch, named `TASK-1234`
+    - or `task-1234` if the lowecase is specified in config
+
+### start new task derived from specific branch:
+
+`wofo start TASK-1234 some-remote-branch`
+
+this will do all the same except that before creating the task
+branch a specified remote branch will be pulled and checked out first
+
+### make commit
+
+```bash
+wofo commit "some commit message"
+```
+
+will create a commit with commit message:
+`TASK-1234 | some commit message`
+
+if `config.commits.firstWordAsCommitType` and `config.commits.headerSepaator` are specified:
+`TASK-1234 | some | commit message`
+
+if no `config.commits.headerSepaator` in config:
+`TASK-1234 some commit message`
+
+if no `config.commits.taskId` in config:
+`some commit message`
+
 ### Installation
 
-1. create your workflow directory (e.g. ~/tasks)
-2. create .workflow.config.js in the workflow dir
-3. put the following code in the config file and change settings as you needed
+1. create your workflow directory (e.g. `~/tasks`)
+2. create `.workflow.config.js` in the **workflow dir**
+3. copy the following code to the config file and change the settings as you wish
 
 ```js
 module.exports = {
@@ -54,30 +97,3 @@ module.exports = {
     },
 };
 ```
-
-### start new task:
-
-```bash
-wofo start TASK-1234
-```
-
-this will:
-
-1. update repository
-   if it's not cloned yet
-    - clone repo
-      if cloned
-    - pull latest changes
-2. copy the repo to `~/tasks/TASK-1234` subdir
-3. install dependencies (using config.commands.installDeps command)
-4. create new branch, named `TASK-1234`
-    - or `task-1234` if the lowecase is specified in config
-
-### make commit
-
-```bash
-wofo commit "some commit message"
-```
-
-will create a commit with commit message:
-`TASK-1234 | some commit message`

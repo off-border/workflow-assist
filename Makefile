@@ -6,3 +6,6 @@ install:
 
 link:
 	yarn link
+
+publish:
+	npm publish

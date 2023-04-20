@@ -35,7 +35,7 @@ export default {
         },
 
         // header fields separator (e.g. "TASK-1234 | type | message")
-        headerSeparator: '|',
+        headerSeparator: ' / ',
 
         // use first word of the message as commit type
         // (e.g. "wofo commit 'some commit message'" -> "TASK-1234 | some | commit message)
