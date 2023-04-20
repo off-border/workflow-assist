@@ -44,6 +44,13 @@ module.exports = {
             // convert task id to upper case (task-1234 -> TASK-1234)
             upperCase: true,
         },
+
+        // header fields separator (e.g. "TASK-1234 | type | message")
+        headerSeparator: ' | ',
+
+        // use the first word of the message as a commit type
+        // (e.g. "wofo commit 'some commit message'" -> "TASK-1234 | some | commit message)
+        firstWordAsCommitType: true,
     },
 };
 ```
