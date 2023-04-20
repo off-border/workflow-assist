@@ -45,6 +45,34 @@ if no `config.commits.headerSepaator` in config:
 if no `config.commits.taskId` in config:
 `some commit message`
 
+### get info
+
+#### show current config
+
+```bash
+wofo show config
+```
+
+```bash
+ > Workspace config:
+
+ {
+  repo: 'git@github.com:off-border/workflow-assist.git',
+  rootDir: '~/tasks',
+  originDir: '.origin',
+...
+```
+
+#### show current task
+
+```bash
+wofo show task
+```
+
+```
+> Current task: TASK-1234
+```
+
 ### Installation
 
 1. create your workflow directory (e.g. `~/tasks`)
