@@ -27,8 +27,8 @@ module.exports = {
 
     // basic commands
     commands: {
-        // command to run after cloning/pulling repo
-        installDeps: 'yarn',
+        // commands to run after cloning/pulling repo
+        installDeps: ['yarn', 'echo DEPS INSTALLED'],
     },
 
     // commits config

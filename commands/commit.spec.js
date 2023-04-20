@@ -87,22 +87,42 @@ describe('commit', () => {
                 });
             });
 
-            describe('if config.commits.firstWordAsCommitType:', () => {
-                describe('provided', () => {
-                    it('- separate first message wort to commit type field', () => {
-                        const { commit } = setup({
-                            config: {
-                                commits: {
-                                    taskId: {},
-                                    headerSeparator: ' / ',
-                                    firstWordAsCommitType: true,
+            describe('if config.commits.firstWordAsCommitType:true', () => {
+                describe('and message:', () => {
+                    describe('has no separator', () => {
+                        it('- use first word as a commit type', () => {
+                            const { commit } = setup({
+                                config: {
+                                    commits: {
+                                        taskId: {},
+                                        headerSeparator: ' / ',
+                                        firstWordAsCommitType: true,
+                                    },
                                 },
-                            },
+                            });
+                            const { commitMessage } = commit('some message');
+                            expect(commitMessage).toContain(
+                                'TASK-1234 / some / message'
+                            );
                         });
-                        const { commitMessage } = commit('some message');
-                        expect(commitMessage).toContain(
-                            'TASK-1234 / some / message'
-                        );
+                    });
+
+                    describe('has separator', () => {
+                        it('- do nothing', () => {
+                            const { commit } = setup({
+                                config: {
+                                    commits: {
+                                        taskId: {},
+                                        headerSeparator: ' / ',
+                                        firstWordAsCommitType: true,
+                                    },
+                                },
+                            });
+                            const { commitMessage } = commit('some / message');
+                            expect(commitMessage).toContain(
+                                'TASK-1234 / some / message'
+                            );
+                        });
                     });
                 });
             });

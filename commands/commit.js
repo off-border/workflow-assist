@@ -18,8 +18,11 @@ export function createCommitCommand({ api, config }) {
         }
 
         if (config.commits?.firstWordAsCommitType) {
-            const commitType = mesasgeWords.shift();
-            commitMessage += commitType + separator;
+            const useFirstWord = !messageArr.join(' ').includes(separator);
+            if (useFirstWord) {
+                const commitType = mesasgeWords.shift();
+                commitMessage += commitType + separator;
+            }
         }
 
         commitMessage += mesasgeWords.join(' ');
