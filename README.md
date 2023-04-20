@@ -32,7 +32,7 @@ this will:
 `wofo start TASK-1234 some-remote-branch`
 
 this will do all the same except that before creating the task
-branch a specified remote branch will be pulled and checked out first
+branch the specified remote branch will be pulled and checked out first
 
 ### make commit
 
@@ -40,16 +40,20 @@ branch a specified remote branch will be pulled and checked out first
 wofo commit "some commit message"
 ```
 
-will create a commit with commit message:
+will make commit with the message:
+
 `TASK-1234 | some commit message`
 
-if `config.commits.firstWordAsCommitType` and `config.commits.headerSepaator` are specified:
+if `config.commits.firstWordAsCommitType` and `config.commits.headerSeparator` are specified:
+
 `TASK-1234 | some | commit message`
 
-if no `config.commits.headerSepaator` in config:
+if no `config.commits.headerSeparator` in config:
+
 `TASK-1234 some commit message`
 
 if no `config.commits.taskId` in config:
+
 `some commit message`
 
 ### get info
