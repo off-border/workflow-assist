@@ -10,15 +10,22 @@ wofo start TASK-1234
 
 this will:
 
-1. update repository
-   if it's not cloned yet
-    - clone repo
-      if cloned
-    - pull latest changes
-2. copy the repo to `~/tasks/TASK-1234` subdir
-3. install dependencies (using config.commands.installDeps command)
-4. create new branch, named `TASK-1234`
-    - or `task-1234` if the lowecase is specified in config
+1.  update repository:
+
+    -   if it's not cloned yet:
+
+        -   clone repo into `...tasks/.origin` dir
+
+    -   if cloned:
+
+        -   pull latest changes into `.origin` dir
+
+2.  copy the local repo to `~/tasks/TASK-1234` subdir
+
+3.  install dependencies (using `config.commands.installDeps` command)
+
+4.  create new branch, named `TASK-1234`
+    -   or `task-1234` if the lowecase is specified in `config.branches.inLowerCase:true`
 
 ### start new task derived from specific branch:
 
