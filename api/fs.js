@@ -8,6 +8,10 @@ export function createFsApi({ api }) {
         process.chdir(fullPath);
     }
 
+    function getCurrentDir() {
+        return process.cwd();
+    }
+
     function dirExists(dir) {
         const fullPath = resolvePath(dir);
         return fs.existsSync(fullPath);
@@ -44,5 +48,6 @@ export function createFsApi({ api }) {
         resolvePath,
         resolveSubdir: (root, dir) => path.join(resolvePath(root), dir),
         copyDir,
+        getCurrentDir,
     };
 }

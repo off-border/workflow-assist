@@ -67,10 +67,9 @@ describe('api/steps', () => {
 
             steps.checkoutRemoteBranch('task-1234', 'remote-branch');
 
-            expect(api.git.fetch).toHaveBeenCalledWith(
-                'task-1234',
-                'remote-branch'
-            );
+            expect(api.git.fetch).toHaveBeenCalledWith('task-1234', {
+                branchName: 'remote-branch',
+            });
         });
 
         it('- checkout the remote branch', () => {

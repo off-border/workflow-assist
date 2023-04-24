@@ -17,11 +17,11 @@ const setup = () => {
 };
 
 describe('api/git', () => {
-    describe('fetch()', () => {
+    describe('.fetch()', () => {
         it('- fetch remote branch', () => {
             const { git, bash } = setup();
 
-            git.fetch('task-1234', 'remote-branch');
+            git.fetch('task-1234', { branchName: 'remote-branch' });
 
             expect(bash).toHaveBeenCalledWith(
                 'cd task-1234 && git fetch origin remote-branch'
@@ -29,7 +29,7 @@ describe('api/git', () => {
         });
     });
 
-    describe('checkout()', () => {
+    describe('.checkout()', () => {
         it('- checkout existing branch', () => {
             const { git, bash } = setup();
 
@@ -38,6 +38,21 @@ describe('api/git', () => {
             expect(bash).toHaveBeenCalledWith(
                 'cd task-1234 && git checkout some-branch'
             );
+        });
+    });
+
+    describe('.getUpstream()', () => {
+        it('- checkout existing branch', () => {
+            const { git, bash } = setup();
+
+            bash.mockReturnValue('origin/remote-branch');
+
+            const result = git.getUpstream('task-1234');
+
+            expect(result).toEqual({
+                remoteName: 'origin',
+                branchName: 'remote-branch',
+            });
         });
     });
 });
