@@ -10,7 +10,7 @@ export function createStartTaskCommand({ api, config }) {
         api.steps.copyOriginToTaskDir(taskId);
         api.steps.checkoutRemoteBranch(taskId, fromBranch);
         api.steps.createTaskBranch(taskId);
-        api.steps.installDeps(taskId);
+        api.steps.runTaskDirReadyHook(taskId);
 
         api.msg('TASK DIR READY:', api.fs.resolvePath(taskId));
     };

@@ -40,15 +40,21 @@ export function createStepsApi({ api, config }) {
         api.git.createBranch(getTaskDir(taskId), branchName);
     }
 
-    function installDeps(taskId) {
-        api.msg('INSTALLING DEPS:', taskId);
+    function runTaskDirReadyHook(taskId) {
+        api.msg('TASK DIR READY HOOK FOR:', taskId);
 
-        const installDepsCfg = config.commands.installDeps;
-        const isArrayOfStrings = Array.isArray(installDepsCfg);
-        const installDepsCmd = isArrayOfStrings
-            ? installDepsCfg.join(' && ')
-            : installDepsCfg;
-        api.bash(`cd ${getTaskDir(taskId)} && ${installDepsCmd}`);
+        const onReadyHook = config.hooks?.taskCopyReady;
+        if (!onReadyHook) {
+            return;
+        }
+
+        process.env.TASK_DIR = getTaskDir(taskId);
+
+        const isArrayOfStrings = Array.isArray(onReadyHook);
+        const runTaskDirReadyHookCmd = isArrayOfStrings
+            ? onReadyHook.join(' && ')
+            : onReadyHook;
+        api.bash(`cd ${getTaskDir(taskId)} && ${runTaskDirReadyHookCmd}`);
     }
 
     return {
@@ -56,6 +62,6 @@ export function createStepsApi({ api, config }) {
         copyOriginToTaskDir,
         createTaskBranch,
         checkoutRemoteBranch,
-        installDeps,
+        runTaskDirReadyHook,
     };
 }

@@ -22,10 +22,15 @@ this will:
 
 2.  copy the local repo to `~/tasks/TASK-1234` subdir
 
-3.  install dependencies (using **config.commands.installDeps** command)
+3.  create new branch, named `TASK-1234`
 
-4.  create new branch, named `TASK-1234`
     -   or `task-1234` if the lowecase is specified in **config.branches.inLowerCase:true**
+
+4.  run **config.hooks.taskCopyReady** hook, (optional, see config) e.g.:
+
+    -   install deps
+
+    -   open VSCode with newly created task dir
 
 ### start new task derived from specific branch:
 
@@ -107,10 +112,16 @@ module.exports = {
         inLowerCase: true,
     },
 
-    // basic commands
-    commands: {
-        // commands to run after cloning/pulling repo
-        installDeps: ['yarn', 'echo DEPS INSTALLED'],
+    // hooks
+    hooks: {
+        // commands to run after copying .origin to a TASK-1234 dir
+        taskCopyReady: [
+            // install deps
+            'yarn',
+            'echo DEPS INSTALLED',
+            // launch VSCode (for linux)
+            'code $TASK_DIR &',
+        ],
     },
 
     // commits config

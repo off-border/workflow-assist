@@ -20,7 +20,7 @@ const setup = ({
             copyOriginToTaskDir: jest.fn(),
             checkoutRemoteBranch: jest.fn(),
             createTaskBranch: jest.fn(),
-            installDeps: jest.fn(),
+            runTaskDirReadyHook: jest.fn(),
         },
     };
 
@@ -63,10 +63,12 @@ describe('startTask(taskId)', () => {
             );
         });
 
-        it('- installDeps', () => {
+        it('- runTaskDirReadyHook', () => {
             const { startTask, api } = setup({ originDirExists: false });
             startTask('TASK-1234');
-            expect(api.steps.installDeps).toHaveBeenCalledWith('TASK-1234');
+            expect(api.steps.runTaskDirReadyHook).toHaveBeenCalledWith(
+                'TASK-1234'
+            );
         });
     });
 });

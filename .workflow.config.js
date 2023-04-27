@@ -14,10 +14,15 @@ export default {
         inLowerCase: true,
     },
 
-    // basic commands
-    commands: {
+    // hooks
+    hooks: {
         // command to run after cloning/pulling repo
-        installDeps: 'yarn',
+        taskCopyReady: [
+            // instal deps
+            'yarn',
+            // launch vscode
+            'upen -a "Visual Studio Code" $TASK_DIR',
+        ],
     },
 
     // commits config

@@ -7,7 +7,7 @@ const config = {
     rootDir: '~/workflow',
     originDir: '.origin',
     commands: {
-        installDeps: 'make install',
+        runTaskDirReadyHook: 'make install',
     },
 };
 

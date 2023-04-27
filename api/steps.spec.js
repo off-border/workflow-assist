@@ -1,10 +1,10 @@
 import jest from 'jest-mock';
 import { createStepsApi } from './steps';
 
-const setup = ({ installDeps }) => {
+const setup = ({ runTaskDirReadyHook }) => {
     const config = {
         commands: {
-            installDeps,
+            runTaskDirReadyHook,
         },
     };
 
@@ -33,13 +33,15 @@ const setup = ({ installDeps }) => {
 };
 
 describe('api/steps', () => {
-    describe('installDeps()', () => {
-        describe('if commands.installDeps config provided', () => {
+    describe('runTaskDirReadyHook()', () => {
+        describe('if config.hooks.taskCopyReady hook provided', () => {
             describe('if is a string', () => {
                 it('execute this line', () => {
-                    const { steps, bash } = setup({ installDeps: 'npm i' });
+                    const { steps, bash } = setup({
+                        runTaskDirReadyHook: 'npm i',
+                    });
 
-                    steps.installDeps('task-1234');
+                    steps.runTaskDirReadyHook('task-1234');
 
                     expect(bash).toHaveBeenCalledWith('cd task-1234 && npm i');
                 });
@@ -48,10 +50,10 @@ describe('api/steps', () => {
             describe('if is an array of string', () => {
                 it('execute each line', () => {
                     const { steps, bash } = setup({
-                        installDeps: ['npm i', 'run test'],
+                        runTaskDirReadyHook: ['npm i', 'run test'],
                     });
 
-                    steps.installDeps('task-1234');
+                    steps.runTaskDirReadyHook('task-1234');
 
                     expect(bash).toHaveBeenCalledWith(
                         'cd task-1234 && npm i && run test'
