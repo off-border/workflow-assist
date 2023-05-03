@@ -10,8 +10,7 @@ export function createCommands({ config, api }) {
     const startTask = createStartTaskCommand({ api, config });
     const commit = createCommitCommand({ api, config });
 
-    // TODO: rebase is broken
-    // const rebase = createRebaseCommand({ api, config });
+    const rebase = createRebaseCommand({ api, config });
     const help = createHelpCommand({ api, config });
     const show = createShowCommand({ api, config });
 
@@ -21,7 +20,8 @@ export function createCommands({ config, api }) {
         s: startTask,
         commit,
         c: commit,
-        // rebase,
+        rebase,
+        r: rebase,
         init,
         show,
     };
