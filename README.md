@@ -158,3 +158,21 @@ module.exports = {
     },
 };
 ```
+
+## Known issues
+
+### no global .wofkflow.config.js yet
+
+for now `wofo` command looks for config starting from current dir and goes up
+until it finds `.wofkflow.config.js` in some of the parent dirs. That means the command
+should be run in the direcory where the correct config file exists for this or one of the parent dirs.
+
+### js/cjs config wrong format
+
+for now only **.js** config files supported (no **.ts/.json**)
+
+Config export format (**commonjs/esnext**) depends on the `package.json` **"type"**
+section value. (e.g. `"type": "module"`)
+
+If **wofo** command says that no config file found - try checking its export type correspondance to your
+project **package.json** settings
