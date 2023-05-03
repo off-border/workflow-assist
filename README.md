@@ -2,7 +2,7 @@
 
 ## Usage
 
-### start new task:
+## start new task:
 
 ```bash
 wofo start TASK-1234
@@ -32,14 +32,14 @@ this will:
 
     -   open VSCode with newly created task dir
 
-### start new task derived from specific branch:
+## start new task derived from specific branch:
 
 `wofo start TASK-1234 some-remote-branch`
 
 this will do all the same except that before creating the task
 branch the specified remote branch will be pulled and checked out first
 
-### make commit
+## make commit
 
 ```bash
 wofo commit "some commit message"
@@ -61,7 +61,7 @@ if no **config.commits.taskId** in config:
 
 `some commit message`
 
-### rebase on base branch
+## rebase on base branch
 
 ```bash
 wofo rebase
@@ -69,9 +69,9 @@ wofo rebase
 
 will rebase current branch on **origin/<config.branches.baseBranch>**
 
-### get info
+## get info
 
-#### show current config
+### show current config
 
 ```bash
 wofo show config
@@ -87,7 +87,7 @@ wofo show config
 ...
 ```
 
-#### show current task
+### show current task
 
 ```bash
 wofo show task
@@ -97,7 +97,7 @@ wofo show task
 > Current task: TASK-1234
 ```
 
-### Installation
+## Installation
 
 1. create your workflow directory (e.g. `~/tasks`)
 2. create **.workflow.config.js** in the **workflow dir**
