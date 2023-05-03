@@ -61,6 +61,14 @@ if no **config.commits.taskId** in config:
 
 `some commit message`
 
+### rebase on base branch
+
+```bash
+wofo rebase
+```
+
+will rebase current branch on **origin/<config.branches.baseBranch>**
+
 ### get info
 
 #### show current config
