@@ -99,6 +99,7 @@ wofo show task
 
 ## Installation
 
+0. `npm i -g wofo`
 1. create your workflow directory (e.g. `~/tasks`)
 2. create **.workflow.config.js** in the **workflow dir**
 3. copy the following code to the config file and change the settings as you wish
