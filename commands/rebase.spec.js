@@ -1,7 +1,12 @@
 import jest from 'jest-mock';
 import { createRebaseCommand } from './rebase';
 
-const setup = ({ config = {} } = {}) => {
+const setup = () => {
+    const config = {
+        branches: {
+            baseBranch: 'base-branch',
+        },
+    };
     const api = {
         fs: {
             getCurrentDir: () => 'task-1234',
@@ -33,7 +38,7 @@ describe('commands/rebase', () => {
 
         expect(api.git.fetch).toHaveBeenCalledWith('task-1234', {
             remoteName: 'origin',
-            branchName: 'remote-branch',
+            branchName: 'base-branch',
         });
     });
 
@@ -44,7 +49,7 @@ describe('commands/rebase', () => {
 
         expect(api.git.rebase).toHaveBeenCalledWith('task-1234', {
             remoteName: 'origin',
-            branchName: 'remote-branch',
+            branchName: 'base-branch',
         });
     });
 });

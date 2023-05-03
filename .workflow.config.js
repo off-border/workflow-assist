@@ -8,8 +8,10 @@ export default {
     // where to keep the main repo copy. this will be a subdir in your rootDir
     originDir: '.origin',
 
-    // configure a new task branch naming
+    // configure a new task branches creation and rebasing
     branches: {
+        // a branch that tasks branches will be created from and repased on
+        baseBranch: 'master',
         // always convert task-id to lowercase (TASK-1234 -> task-1234)
         inLowerCase: true,
     },

@@ -1,5 +1,8 @@
 export function createStartTaskCommand({ api, config }) {
-    return function startTask(taskId, fromBranch = 'master') {
+    return function startTask(
+        taskId,
+        baseBranch = config.branches.baseBranch ?? 'master'
+    ) {
         if (api.tasks.isTaskDirExists(taskId)) {
             api.msg('TASK DIR ALREADY EXISTS:', api.fs.resolvePath(taskId));
             return;
@@ -8,7 +11,7 @@ export function createStartTaskCommand({ api, config }) {
         api.msg('STARTING TASK:', taskId);
         api.steps.updateOrigin();
         api.steps.copyOriginToTaskDir(taskId);
-        api.steps.checkoutRemoteBranch(taskId, fromBranch);
+        api.steps.checkoutRemoteBranch(taskId, baseBranch);
         api.steps.createTaskBranch(taskId);
         api.steps.runTaskDirReadyHook(taskId);
 

@@ -6,6 +6,11 @@ const setup = ({
     taskDirExists = false,
     lowerCaseBranches = false,
 }) => {
+    const config = {
+        branches: {
+            baseBranch: 'base-branch',
+        },
+    };
     const api = {
         msg: jest.fn(),
         tasks: {
@@ -24,7 +29,7 @@ const setup = ({
         },
     };
 
-    const startTask = createStartTaskCommand({ api });
+    const startTask = createStartTaskCommand({ api, config });
 
     return {
         startTask,

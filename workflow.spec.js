@@ -6,8 +6,8 @@ const config = {
     repo: 'ssh://git@test-github.com:2022/some-user/test-repo.git',
     rootDir: '~/workflow',
     originDir: '.origin',
-    commands: {
-        runTaskDirReadyHook: 'make install',
+    hooks: {
+        taskCopyReady: 'make install',
     },
 };
 
@@ -93,7 +93,7 @@ describe('workflow', () => {
                     `cd ~/workflow/TASK-1234 && git checkout -b TASK-1234`
                 );
             });
-            it('- install deps', () => {
+            it('- run hooks', () => {
                 const { run, api } = setup();
                 run('start TASK-1234');
                 expect(api.bash).toHaveBeenCalledWith(
