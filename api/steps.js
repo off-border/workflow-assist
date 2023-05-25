@@ -26,7 +26,7 @@ export function createStepsApi({ api, config }) {
     }
 
     function checkoutRemoteBranch(taskId, remoteBranch) {
-        api.msg('CHECKKINT OUT BRANCH:', taskId);
+        api.msg('CHECKING OUT BRANCH:', taskId);
         api.git.fetch(getTaskDir(taskId), { branchName: remoteBranch });
         api.git.checkout(getTaskDir(taskId), remoteBranch);
     }

@@ -117,11 +117,14 @@ module.exports = {
 
     // configure a new task branches creation and rebasing
     branches: {
-        // the branch which task branches will be created from and repased on
+        // the branch which task branches will be created from and rebased on
         baseBranch: 'master',
         // always convert task-id to lowercase (TASK-1234 -> task-1234)
         inLowerCase: true,
     },
+
+    // to switch whether it should create a new folder for task or use the current one
+    copyOriginToTaskDir: true,
 
     // hooks
     hooks: {
