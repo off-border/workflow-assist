@@ -40,8 +40,8 @@ export function createStepsApi({ api, config }) {
         api.git.createBranch(getTaskDir(taskId), branchName);
     }
 
-    function runTaskDirReadyHook(taskId) {
-        api.msg('TASK DIR READY HOOK FOR:', taskId);
+    function runTaskCopyReadyHook(taskId) {
+        api.msg('RUNNING HOOK: taskCopyReady:', taskId);
 
         const onReadyHook = config.hooks?.taskCopyReady;
         if (!onReadyHook) {
@@ -51,10 +51,10 @@ export function createStepsApi({ api, config }) {
         process.env.TASK_DIR = getTaskDir(taskId);
 
         const isArrayOfStrings = Array.isArray(onReadyHook);
-        const runTaskDirReadyHookCmd = isArrayOfStrings
+        const runTaskCopyReadyHookCmd = isArrayOfStrings
             ? onReadyHook.join(' && ')
             : onReadyHook;
-        api.bash(`cd ${getTaskDir(taskId)} && ${runTaskDirReadyHookCmd}`);
+        api.bash(`cd ${getTaskDir(taskId)} && ${runTaskCopyReadyHookCmd}`);
     }
 
     return {
@@ -62,6 +62,6 @@ export function createStepsApi({ api, config }) {
         copyOriginToTaskDir,
         createTaskBranch,
         checkoutRemoteBranch,
-        runTaskDirReadyHook,
+        runTaskCopyReadyHook,
     };
 }

@@ -25,7 +25,7 @@ const setup = ({
             copyOriginToTaskDir: jest.fn(),
             checkoutRemoteBranch: jest.fn(),
             createTaskBranch: jest.fn(),
-            runTaskDirReadyHook: jest.fn(),
+            runTaskCopyReadyHook: jest.fn(),
         },
     };
 
@@ -68,10 +68,10 @@ describe('startTask(taskId)', () => {
             );
         });
 
-        it('- runTaskDirReadyHook', () => {
+        it('- runTaskCopyReadyHook', () => {
             const { startTask, api } = setup({ originDirExists: false });
             startTask('TASK-1234');
-            expect(api.steps.runTaskDirReadyHook).toHaveBeenCalledWith(
+            expect(api.steps.runTaskCopyReadyHook).toHaveBeenCalledWith(
                 'TASK-1234'
             );
         });

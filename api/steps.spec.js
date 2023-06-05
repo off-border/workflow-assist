@@ -1,10 +1,10 @@
 import jest from 'jest-mock';
 import { createStepsApi } from './steps';
 
-const setup = ({ runTaskDirReadyHook }) => {
+const setup = ({ taskCopyReadyHook }) => {
     const config = {
-        commands: {
-            runTaskDirReadyHook,
+        hooks: {
+            taskCopyReady: taskCopyReadyHook,
         },
     };
 
@@ -33,15 +33,15 @@ const setup = ({ runTaskDirReadyHook }) => {
 };
 
 describe('api/steps', () => {
-    describe('runTaskDirReadyHook()', () => {
+    describe('taskCopyReadyHook()', () => {
         describe('if config.hooks.taskCopyReady hook provided', () => {
             describe('if is a string', () => {
-                it('execute this line', () => {
+                it('- execute this line', () => {
                     const { steps, bash } = setup({
-                        runTaskDirReadyHook: 'npm i',
+                        taskCopyReadyHook: 'npm i',
                     });
 
-                    steps.runTaskDirReadyHook('task-1234');
+                    steps.runTaskCopyReadyHook('task-1234');
 
                     expect(bash).toHaveBeenCalledWith('cd task-1234 && npm i');
                 });
@@ -50,10 +50,10 @@ describe('api/steps', () => {
             describe('if is an array of string', () => {
                 it('execute each line', () => {
                     const { steps, bash } = setup({
-                        runTaskDirReadyHook: ['npm i', 'run test'],
+                        taskCopyReadyHook: ['npm i', 'run test'],
                     });
 
-                    steps.runTaskDirReadyHook('task-1234');
+                    steps.runTaskCopyReadyHook('task-1234');
 
                     expect(bash).toHaveBeenCalledWith(
                         'cd task-1234 && npm i && run test'
