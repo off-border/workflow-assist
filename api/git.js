@@ -42,7 +42,10 @@ export function createGitApi({ api }) {
     }
 
     function rebase(path, { remoteName, branchName: remoteBranch }) {
-        api.bash(`cd ${path} && git rebase ${remoteName}/${remoteBranch}`);
+        // https://stackoverflow.com/questions/29914052/how-to-git-rebase-a-branch-with-the-onto-command/29916361#29916361
+        api.bash(
+            `cd ${path} && git rebase --onto ${remoteName}/${remoteBranch} HEAD^`
+        );
     }
 
     return {
