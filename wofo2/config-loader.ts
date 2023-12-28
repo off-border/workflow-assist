@@ -19,8 +19,8 @@ type Config = {
         inLowerCase: boolean;
     }
     hooks: {
-        taskCopyReady: BashCommand[];
         originUpdated: BashCommand[];
+        taskCopyReady: BashCommand[];
     };
     copyOriginToTask: boolean;
     commits: {

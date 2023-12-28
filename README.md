@@ -20,7 +20,11 @@ this will:
 
         -   pull latest changes into `.origin` dir
 
-2.  copy the local repo to `~/tasks/TASK-1234` subdir
+    -   run shell commands from **config.hooks.originUpdated** (e.g [`npm install`] to install deps)
+
+2.  copy the `.origin` to `~/tasks/TASK-1234` subdir
+
+    -   this step will be skipped for (**config.copyOriginToTask: false**)
 
 3.  create new branch, named `TASK-1234`
 
@@ -28,11 +32,11 @@ this will:
 
 4.  run **config.hooks.taskCopyReady** hook, (optional, see config) e.g.:
 
-    -   install deps
+    -   [ `npm install` ] to install deps
 
-    -   open VSCode with newly created task dir
+    -   [ `npm install`, `code .`] open VSCode with newly created task dir
 
-## start new task derived from specific branch:
+## start new task derived from specific branch: **(temporarily disabled)**
 
 `wofo start TASK-1234 some-remote-branch`
 
@@ -42,7 +46,7 @@ branch the specified remote branch will be pulled and checked out first
 ## make commit
 
 ```bash
-wofo commit "some commit message"
+wofo commit some commit message
 ```
 
 will make commit with the message:
@@ -67,7 +71,18 @@ if no **config.commits.taskId** in config:
 wofo rebase
 ```
 
-will rebase current branch on **origin/<config.branches.baseBranch>**
+will rebase current branch onto **origin/<config.branches.baseBranch>** (fetching it before)
+
+```bash
+wofo rebase another-branch
+```
+
+will rebase current branch onto **another-branch**
+
+`wofo rebase` tries to detect all commits related to the current task
+by filtering the ones which commit message starts from `TASK-XXXX`
+(or whatever **config.commits.taskId.extractRegex** is specified in
+config to get task id from current branch name)
 
 ## get info
 
@@ -96,6 +111,20 @@ wofo show task
 ```
 > Current task: TASK-1234
 ```
+
+## Getting commands help
+
+```bash
+    wofo help
+```
+
+will display the usage info
+
+```bash
+wofo help <command>
+```
+
+will show detailed help for selected command
 
 ## Installation
 
@@ -168,14 +197,14 @@ module.exports = {
 
 for now `wofo` command looks for config starting from current dir and goes up
 until it finds `.wofkflow.config.js` in some of the parent dirs. That means the command
-should be run in the direcory where the correct config file exists for this or one of the parent dirs.
+**should** be run in the directory where the correct config file exists is located in one of the parent dirs.
 
 ### js/cjs config wrong format
 
 for now only **.js** config files supported (no **.ts/.json**)
 
 Config export format (**commonjs/esnext**) depends on the `package.json` **"type"**
-section value. (e.g. `"type": "module"`)
+section value. (e.g. `"type": "module"`) (for JS/TS based projects)
 
-If **wofo** command says that no config file found - try checking its export type correspondance to your
-project **package.json** settings
+If **wofo** command says that no config file found - check if its export type corresponds to your
+project **package.json** -> **type** setting

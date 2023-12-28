@@ -23,7 +23,7 @@ program
     .showHelpAfterError();
 program
     .command('rebase')
-    .description('smart rebase branch onto another branch')
+    .description('smart rebase branch onto targetBranch')
     .argument('[targetBranch]', 'branch to rebase onto (default: config.branches.baseBranch)')
     .action(rebase);
 program
