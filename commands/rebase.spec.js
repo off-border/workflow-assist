@@ -16,6 +16,7 @@ const setup = () => {
                 remoteName: 'origin',
                 branchName: 'remote-branch',
             }),
+            getMergeBase: jest.fn(() => 'merge-base-commit'),
             fetch: jest.fn(),
             rebase: jest.fn(),
         },
@@ -31,7 +32,18 @@ const setup = () => {
 };
 
 describe('commands/rebase', () => {
-    it('fetch remote branch', () => {
+    it('- get common ancestor commit', () => {
+        const { rebase, api } = setup();
+
+        rebase('task-1234');
+
+        expect(api.git.getMergeBase).toHaveBeenCalledWith('task-1234', {
+            remoteName: 'origin',
+            branchName: 'base-branch',
+        });
+    });
+
+    it('- fetch remote branch', () => {
         const { rebase, api } = setup();
 
         rebase('task-1234');
@@ -42,7 +54,7 @@ describe('commands/rebase', () => {
         });
     });
 
-    it('rebase on remote branch', () => {
+    it('- rebase on remote branch', () => {
         const { rebase, api } = setup();
 
         rebase('task-1234');
@@ -50,6 +62,7 @@ describe('commands/rebase', () => {
         expect(api.git.rebase).toHaveBeenCalledWith('task-1234', {
             remoteName: 'origin',
             branchName: 'base-branch',
+            mergeBase: 'merge-base-commit',
         });
     });
 });

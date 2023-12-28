@@ -7,7 +7,7 @@
   "main": "cli.js",
   "scripts": {
     "test": "yarn node --experimental-vm-modules $(yarn bin jest) --verbose --watch",
-    "build": "tsc"
+    "build": "tsc wofo2/index.ts"
   },
   "bin": {
     "wofo": "./cli.js"
@@ -17,6 +17,7 @@
     "url": "git@github.com:off-border/workflow-assist.git"
   },
   "dependencies": {
+    "commander": "^11.1.0",
     "jest": "^29.4.3"
   },
   "devDependencies": {

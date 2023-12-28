@@ -6,15 +6,23 @@ export function createRebaseCommand({ api, config }) {
         const originName = 'origin';
         const baseBranch = config.branches.baseBranch ?? 'master';
 
+        const mergeBase = api.git.getMergeBase(taskPath, {
+            remoteName: originName,
+            branchName: baseBranch,
+        });
+        api.msg('COMMIT TO REBASE:', mergeBase);
+
         api.msg('FETCH:', originName, baseBranch);
         api.git.fetch(taskPath, {
             remoteName: originName,
             branchName: baseBranch,
         });
-        api.msg('REBASE BY:', originName, baseBranch);
+
+        api.msg('REBASE ONTO:', originName, baseBranch);
         api.git.rebase(taskPath, {
             remoteName: originName,
             branchName: baseBranch,
+            mergeBase,
         });
     };
 }
