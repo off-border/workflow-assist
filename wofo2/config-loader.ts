@@ -23,6 +23,14 @@ type Config = {
         originUpdated: BashCommand[];
     };
     copyOriginToTask: boolean;
+    commits: {
+        taskId: {
+            extractRegex: string;
+            upperCase: boolean;
+        }
+        headerSeparator: string;
+        firstWordAsCommitType: boolean;
+    }
 }
 
 export async function loadConfig(cwd = process.env.PWD, requireFile?: () => unknown) {

@@ -47,7 +47,7 @@ async function createWorkingCopy(TaskId: string) {
     const config = await loadConfig();
     const rootDir = resolvePath(config.rootDir);
     const originDir = join(rootDir, config.originDir);
-    const taskBranch = TaskId;
+    const taskBranch = config.branches.inLowerCase ? TaskId.toLowerCase() : TaskId;
     const shouldCopyDir = config.copyOriginToTask !== false;
     const taskDir = await getTaskDir(taskBranch);
     const taskDirExists = dirExists(taskDir);

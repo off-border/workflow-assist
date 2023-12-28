@@ -18,7 +18,7 @@ async function getTaskDir(taskId: string) {
 
 async function getTaskIdFromBranch(branch: string) {
     const config = await loadConfig();
-    const extractRegex = config.commit.taskId.extractRegex;
+    const extractRegex = config.commits.taskId.extractRegex;
 
     if (!extractRegex) {
         return branch;
@@ -31,7 +31,7 @@ async function getTaskIdFromBranch(branch: string) {
         throw new Error('Failed to extract taskId from branch');
     }
 
-    const taskId = config.commit.taskId.upperCase
+    const taskId = config.commits.taskId.upperCase
         ? extractedTaskId.toUpperCase()
         : extractedTaskId;
 
