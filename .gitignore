@@ -2,4 +2,3 @@ node_modules
 .npmrc
 .origin
 .DS_Store
-dist
