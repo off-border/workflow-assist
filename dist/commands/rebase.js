@@ -1,6 +1,7 @@
 import { bash } from "../api/bash.js";
 import { getTaskIdFromBranch } from "../api/task.js";
 import { error, header, info } from "../api/msg.js";
+import { loadConfig } from "../config-loader.js";
 async function rebase(targetBranch) {
     header('REBASING');
     const taskId = await getTaskIdFromBranch();
@@ -20,7 +21,9 @@ async function rebase(targetBranch) {
         return;
     }
     const firstCommit = taskCommits[taskCommits.length - 1].split('###')[1].trim();
-    bash(`git fetch origin ${targetBranch}`);
-    bash(`git rebase ${firstCommit}~1 --onto origin/${targetBranch}`);
+    const config = await loadConfig();
+    const target = targetBranch || config.branches.baseBranch;
+    bash(`git fetch origin ${target}`);
+    bash(`git rebase ${firstCommit}~1 --onto origin/${target}`);
 }
 export { rebase, };
