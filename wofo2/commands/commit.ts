@@ -1,26 +1,29 @@
-import { bash } from "../api/bash.js";
-import { getCurrentBranch } from "../api/git.js";
-import { error, header } from "../api/msg.js";
-import { getTaskIdFromBranch } from "../api/task.js";
-import { loadConfig } from "../config-loader.js";
+import { bash } from '../api/bash.js';
+import { getCurrentBranch } from '../api/git.js';
+import { error, header } from '../api/msg.js';
+import { getTaskIdFromBranch } from '../api/task.js';
+import { loadConfig } from '../config-loader.js';
 
 async function commit(type: string, message: string[]) {
     const config = await loadConfig();
-    
+
     const currentBranch = getCurrentBranch();
-    
+
     header('COMMITTING CHANGES');
-    
+
     if (!currentBranch) {
         error('Not on a task branch');
-        return
+        return;
     }
-    
+
     const taskId = await getTaskIdFromBranch(currentBranch);
     const headerSeparator = config.commits.headerSeparator || ' ';
     const firstWordAsCommitType = config.commits.firstWordAsCommitType;
 
-    let commitMessage = `${taskId}${headerSeparator}${type}`
+    let commitMessage = config.commits.taskId
+        ? `${taskId}${headerSeparator}${type}`
+        : `${type}`;
+
     if (firstWordAsCommitType) {
         commitMessage += `${headerSeparator}`;
     } else {
@@ -31,6 +34,4 @@ async function commit(type: string, message: string[]) {
     bash(`git commit -m "${commitMessage}"`);
 }
 
-export {
-    commit,
-}
+export { commit };
