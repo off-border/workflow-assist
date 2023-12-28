@@ -3,19 +3,41 @@ import { fileURLToPath } from 'url';
 
 const CONFIG_NAME = '.workflow.config.js';
 
-export async function loadConfig(cwd = process.env.PWD, requireFile) {
-    const config = await searchInTree(cwd, CONFIG_NAME, requireFile);
+type RepoUrl = string;
+type DirPath = string;
+type BranchName = string;
+
+type BashCommand = string;
+
+
+type Config = {
+    repo: RepoUrl;
+    rootDir: DirPath;
+    originDir: DirPath;
+    branches: {
+        baseBranch: BranchName;
+        inLowerCase: boolean;
+    }
+    hooks: {
+        taskCopyReady: BashCommand[];
+        originUpdated: BashCommand[];
+    };
+    copyOriginToTask: boolean;
+}
+
+export async function loadConfig(cwd = process.env.PWD, requireFile?: () => unknown) {
+    const config = await searchInTree(cwd!, CONFIG_NAME, requireFile);
 
     if (config) {
-        return config;
+        return config as Config;
     }
 
     throw new Error('CONFIG NOT FOUND');
 }
 
-async function searchInTree(dir, file, requireFile) {
+async function searchInTree(dir: string, file: string, requireFile?: () => unknown) {
     let pathArr = dir.split('/');
-    let config, error;
+    let config, error: any;
     while (!config && pathArr.length) {
         ({ config, error } = await tryRequire(
             pathArr,
@@ -37,7 +59,7 @@ async function searchInTree(dir, file, requireFile) {
     return config;
 }
 
-async function tryRequire(dirArr, file, requireFile) {
+async function tryRequire(dirArr: string[], file: string, requireFile?: (path: string) => unknown) {
     if (requireFile) {
         try {
             const config = await requireFile(path.join(...dirArr, file));
