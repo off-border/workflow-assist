@@ -2,6 +2,7 @@ import { join } from "path";
 import { loadConfig } from "../config-loader.js";
 import { resolvePath } from "./fs.js";
 import { error } from "./msg.js";
+import { getCurrentBranch } from "./git.js";
 
 async function getTaskDir(taskId: string) {
     const config = await loadConfig();
@@ -16,7 +17,7 @@ async function getTaskDir(taskId: string) {
     return taskDir;
 }
 
-async function getTaskIdFromBranch(branch: string) {
+async function getTaskIdFromBranch(branch: string = getCurrentBranch()) {
     const config = await loadConfig();
     const extractRegex = config.commits.taskId.extractRegex;
 

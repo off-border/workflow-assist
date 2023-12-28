@@ -2,6 +2,7 @@
 import { Argument, program } from 'commander';
 import { startNewTask } from './commands/start.js';
 import { commit } from './commands/commit.js';
+import { rebase } from './commands/rebase.js';
 import { loadConfig } from './config-loader.js';
 import { info } from './api/msg.js';
 import { getTaskIdFromBranch } from './api/task.js';
@@ -20,6 +21,11 @@ program
     .argument('<message...>', 'commit message')
     .action(commit)
     .showHelpAfterError();
+program
+    .command('rebase')
+    .description('smart rebase branch onto another branch')
+    .argument('<targetBranch>', 'branch to rebase onto')
+    .action(rebase);
 program
     .command('show')
     .description('show additional info')
