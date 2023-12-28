@@ -1,12 +1,14 @@
-test: install
+test: deps
 	yarn test
 
-install:
-	yarn
-
-link:
-	yarn link
+install: build
 	npm link
 
-publish:
+publish: build
 	npm publish
+
+build: deps
+	yarn build
+
+deps:
+	yarn
