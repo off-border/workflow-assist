@@ -18,32 +18,38 @@ program
         'start new task (create working copy, task branch, and install deps)'
     )
     .argument('<taskId>', 'JIRA task id')
-    .action(startNewTask)
-    .showHelpAfterError();
-
+    .showHelpAfterError()
+    .action(startNewTask);
 
 program
     .command('commit')
     .description('commit changes to task branch')
-    .argument('<type>', 'type of the commit (fix, feat, refc, etc')
-    .argument('<message...>', 'commit message')
-    .action(commit)
-    .showHelpAfterError();
+    .argument('[type]', 'type of the commit (fix, feat, refc, etc)')
+    .argument(
+        '<message...>',
+        'commit message. can be porvided without " " around it'
+    )
+    .showHelpAfterError()
+    .action(commit);
 
 program
     .command('rebase')
     .description('smart rebase branch onto targetBranch')
-    .argument('[targetBranch]', 'branch to rebase onto (default: config.branches.baseBranch)')
-    .action(rebase)
+    .argument(
+        '[targetBranch]',
+        'branch to rebase onto (default: config.branches.baseBranch)'
+    )
+    .showHelpAfterError()
+    .action(rebase);
 
 //add squash command
 program
     .command('squash')
     .description('squash commits of the task into one')
+    .argument('[type]', 'commit type')
     .argument('[message...]', 'commit message')
-    .action(squash)
-
-    
+    .showHelpAfterError()
+    .action(squash);
 
 program
     .command('show')
@@ -51,6 +57,7 @@ program
     .addArgument(
         new Argument('<topic>', 'topic to show').choices(['config', 'task'])
     )
+    .showHelpAfterError()
     .action(async (topic) => {
         const config = await loadConfig();
 
@@ -66,7 +73,6 @@ program
                 console.log(taskId);
                 return;
         }
-    })
-    .showHelpAfterError();
+    });
 
 program.parse(process.argv);
