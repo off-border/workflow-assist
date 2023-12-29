@@ -1,22 +1,25 @@
 import { execSync } from 'child_process';
-import { info, error } from './msg.js';
-export function bash(cmd, { silent = false, dryRun = false, cwd = process.cwd() } = {}) {
+import { error, bashCommand, bashOutput } from './msg.js';
+export function bash(cmd, { silent = false, dryRun = false, cwd = process.cwd(), allowThrow = false } = {}) {
     if (!silent) {
-        info(cmd);
+        bashCommand(cmd);
     }
     if (dryRun) {
         return '';
     }
     try {
-        const output = execSync(cmd, { encoding: 'utf-8', cwd, });
+        const output = execSync(cmd, { encoding: 'utf-8', cwd });
         if (!silent) {
-            console.log(output);
+            bashOutput(output);
         }
         return output;
     }
     catch (e) {
         error(e.message);
-        console.log(e.stdout);
+        // console.log(e.stdout);
+        if (allowThrow) {
+            throw e;
+        }
         return e.stdout;
     }
 }

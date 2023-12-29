@@ -4,6 +4,7 @@ import { Argument, program } from 'commander';
 import { startNewTask } from './commands/start.js';
 import { commit } from './commands/commit.js';
 import { rebase } from './commands/rebase.js';
+import { squash } from './commands/squash.js';
 import { loadConfig } from './config-loader.js';
 import { info } from './api/msg.js';
 import { getTaskIdFromBranch } from './api/task.js';
@@ -34,6 +35,15 @@ program
     .description('smart rebase branch onto targetBranch')
     .argument('[targetBranch]', 'branch to rebase onto (default: config.branches.baseBranch)')
     .action(rebase)
+
+//add squash command
+program
+    .command('squash')
+    .description('squash commits of the task into one')
+    .argument('[message...]', 'commit message')
+    .action(squash)
+
+    
 
 program
     .command('show')

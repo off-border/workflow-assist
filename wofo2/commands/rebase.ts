@@ -1,5 +1,5 @@
 import { bash } from "../api/bash.js";
-import { getTaskIdFromBranch } from "../api/task.js";
+import { getTaskCommits, getTaskIdFromBranch } from "../api/task.js";
 import { error, header, info } from "../api/msg.js";
 import { loadConfig } from "../config-loader.js";
 
@@ -12,15 +12,7 @@ async function rebase(targetBranch: string) {
         return;
     }
 
-    const gitHistory = bash(`git log -n 50 --format="%s ### %H"`, { cwd: process.cwd(), silent: true });
-    if (!gitHistory) {
-        error('git history is empty');
-        return;
-    }
-
-    const taskCommits = gitHistory.split('\n').filter((line) => line.startsWith(taskId));
-    info('taskCommits:\n' + taskCommits.join('\n'), '\n');
-
+    const taskCommits = await getTaskCommits(taskId);
     if (!taskCommits.length) {
         error('no task commits found');
         return;
