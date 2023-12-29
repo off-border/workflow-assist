@@ -10,13 +10,13 @@ wofo start TASK-1234
 
 this will:
 
-1.  update repository:
+1.  update local repository:
 
     -   if it's not cloned yet:
 
-        -   clone repo into `...tasks/.origin` dir
+        -   clone repo into `...tasks/.origin` dir (or into **config.rootDir**/**config.originDir**)
 
-    -   if cloned:
+    -   if already cloned:
 
         -   pull latest changes into `.origin` dir
 
@@ -24,7 +24,7 @@ this will:
 
 2.  copy the `.origin` to `~/tasks/TASK-1234` subdir
 
-    -   this step will be skipped for (**config.copyOriginToTask: false**)
+    -   (this step will be skipped for **config.copyOriginToTask: false**)
 
 3.  create new branch, named `TASK-1234`
 
@@ -34,13 +34,13 @@ this will:
 
     -   [ `npm install` ] to install deps
 
-    -   [ `npm install`, `code .`] open VSCode with newly created task dir
+    -   [ `npm install`, `code .`] install deps and open VSCode with newly created task dir
 
 ## start new task derived from specific branch: **(temporarily disabled)**
 
 `wofo start TASK-1234 some-remote-branch`
 
-this will do all the same except that before creating the task
+this will do all the same except before creating the task
 branch the specified remote branch will be pulled and checked out first
 
 ## make commit
@@ -83,6 +83,23 @@ will rebase current branch onto **another-branch**
 by filtering the ones which commit message starts from `TASK-XXXX`
 (or whatever **config.commits.taskId.extractRegex** is specified in
 config to get task id from current branch name)
+
+## squash tasks commits
+
+```bash
+wofo squash
+```
+
+will squash all last commits prefixed with current task id (TASK-XXXX) into
+one commit. The commit message will be the message of the first task commit message
+
+```bash
+wofo squash fix some message
+```
+
+will squash task commits into one with message:
+
+`TASK-1234 | fix | some message`
 
 ## get info
 

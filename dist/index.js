@@ -41,9 +41,6 @@ program
     .description('show additional info')
     .addArgument(new Argument('<topic>', 'topic to show').choices(['config', 'task']))
     .showHelpAfterError()
-    .configureHelp({
-    showGlobalOptions: false
-})
     .action(async (topic) => {
     const config = await loadConfig();
     switch (topic) {
