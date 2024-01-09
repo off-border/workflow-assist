@@ -51,12 +51,13 @@ async function createWorkingCopy(TaskId: string) {
     const shouldCopyDir = config.copyOriginToTask !== false;
     const taskDir = await getTaskDir(taskBranch);
     const taskDirExists = dirExists(taskDir);
+    const taskBranchExists = taskDirExists && branchExists(taskBranch, { cwd: originDir });
     const taskCopyReadyHook = config.hooks.taskCopyReady;
 
     header('creating working copy');
     info('---taskDir', taskDir);
 
-    if (branchExists(taskBranch, { cwd: originDir })) {
+    if (taskBranchExists) {
         header('task branch already exists');
         return;
     }
