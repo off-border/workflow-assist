@@ -167,6 +167,8 @@ module.exports = {
         baseBranch: 'master',
         // always convert task-id to lowercase (TASK-1234 -> task-1234)
         inLowerCase: true,
+        // max length of the task branch name
+        maxLength: 50,
     },
 
     // to switch whether it should create a new folder for task or use the current one

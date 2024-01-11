@@ -17,6 +17,7 @@ type Config = {
     branches: {
         baseBranch: BranchName;
         inLowerCase: boolean;
+        maxLength: number;
     }
     hooks: {
         originUpdated: BashCommand[];

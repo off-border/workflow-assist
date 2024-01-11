@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { loadConfig } from '../config-loader.js';
-import { header, info } from '../api/msg.js';
+import { error, header, info } from '../api/msg.js';
 import { dirExists, resolvePath } from '../api/fs.js';
 import { bash } from '../api/bash.js';
 import { branchExists } from '../api/git.js';
@@ -42,12 +42,18 @@ async function createWorkingCopy(TaskId) {
     const config = await loadConfig();
     const rootDir = resolvePath(config.rootDir);
     const originDir = join(rootDir, config.originDir);
-    const taskBranch = config.branches.inLowerCase ? TaskId.toLowerCase() : TaskId;
+    const taskBranch = config.branches.inLowerCase
+        ? TaskId.toLowerCase()
+        : TaskId;
     const shouldCopyDir = config.copyOriginToTask !== false;
     const taskDir = await getTaskDir(taskBranch);
     const taskDirExists = dirExists(taskDir);
     const taskBranchExists = taskDirExists && branchExists(taskBranch, { cwd: originDir });
     const taskCopyReadyHook = config.hooks.taskCopyReady;
+    if (taskBranch.length > (config.branches.maxLength || Infinity)) {
+        error(`Branch name "${taskBranch}" is too long (${taskBranch.length}).`, `Max length is ${config.branches.maxLength}`);
+        return;
+    }
     header('creating working copy');
     info('---taskDir', taskDir);
     if (taskBranchExists) {
