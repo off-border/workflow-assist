@@ -40,8 +40,8 @@ this will:
 
 `wofo start TASK-1234 some-remote-branch`
 
-this will do all the same except before creating the task
-branch the specified remote branch will be pulled and checked out first
+this will do all the same but tas branch will be derived from `some-remote-branch`
+instead of **config.branches.baseBranch**
 
 ## make commit
 

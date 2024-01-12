@@ -6,10 +6,10 @@ import { bash } from '../api/bash.js';
 import { branchExists } from '../api/git.js';
 import { getTaskDir } from '../api/task.js';
 
-async function startNewTask(taskId: string) {
+async function startNewTask(taskId: string, fromBranch: string) {
     header(`STARTING NEW TASK: ${taskId}`);
     await cloneOrUpdateRepo();
-    await createWorkingCopy(taskId);
+    await createWorkingCopy(taskId, fromBranch);
 }
 
 async function cloneOrUpdateRepo() {
@@ -43,7 +43,7 @@ async function cloneOrUpdateRepo() {
     }
 }
 
-async function createWorkingCopy(TaskId: string) {
+async function createWorkingCopy(TaskId: string, fromBranch: string) {
     const config = await loadConfig();
     const rootDir = resolvePath(config.rootDir);
     const originDir = join(rootDir, config.originDir);
@@ -66,7 +66,9 @@ async function createWorkingCopy(TaskId: string) {
     }
 
     header('creating working copy');
-    info('---taskDir', taskDir);
+    info('task dir:', taskDir);
+    info('task branch:', taskBranch);
+    info('from branch:', fromBranch || config.branches.baseBranch);
 
     if (taskBranchExists) {
         header('task branch already exists');
@@ -81,6 +83,12 @@ async function createWorkingCopy(TaskId: string) {
     header('checking out new branch');
     bash(`git checkout -b ${taskBranch}`, { cwd: taskDir });
     info('working copy created in:', taskDir);
+
+    if (fromBranch) {
+        header(`resetting to ${fromBranch}`);
+        bash(`git fetch origin ${fromBranch}`, { cwd: taskDir });
+        bash(`git reset --hard origin/${fromBranch}`, { cwd: taskDir });
+    }
 
     if (taskCopyReadyHook) {
         header('running taskCopyReadyHook');

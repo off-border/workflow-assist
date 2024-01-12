@@ -13,6 +13,7 @@ program
     .command('start')
     .description('start new task (create working copy, task branch, and install deps)')
     .argument('<taskId>', 'JIRA task id')
+    .argument('[branch]', 'branch to start from')
     .showHelpAfterError()
     .action(startNewTask);
 program
