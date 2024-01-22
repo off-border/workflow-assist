@@ -6,7 +6,7 @@ import {
     getTaskIdFromBranch,
 } from '../api/task.js';
 
-async function squash(messageArr: string[]) {
+async function squash(messageArr: string[] = []) {
     const taskId = await getTaskIdFromBranch();
     const taskCommits = await getTaskCommits(taskId);
 

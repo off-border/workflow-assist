@@ -1,7 +1,7 @@
 import { bash } from '../api/bash.js';
 import { error, info } from '../api/msg.js';
 import { getCommitMessage, getTaskCommits, getTaskIdFromBranch, } from '../api/task.js';
-async function squash(messageArr) {
+async function squash(messageArr = []) {
     const taskId = await getTaskIdFromBranch();
     const taskCommits = await getTaskCommits(taskId);
     if (!taskCommits.length) {
