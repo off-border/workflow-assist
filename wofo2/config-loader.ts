@@ -14,6 +14,9 @@ type Config = {
     repo: RepoUrl;
     rootDir: DirPath;
     originDir: DirPath;
+    tasks: {
+        directoryPrefix: string;
+    }
     branches: {
         baseBranch: BranchName;
         inLowerCase: boolean;

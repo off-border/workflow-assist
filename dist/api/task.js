@@ -11,7 +11,9 @@ async function getTaskDir(taskId) {
     if (config.copyOriginToTask === false) {
         return originDir;
     }
-    const taskDir = join(rootDir, getEscapedTaskId(taskId));
+    const taskDirectoryPrefix = config.tasks?.directoryPrefix || '';
+    const taskDirName = taskDirectoryPrefix + getEscapedTaskId(taskId);
+    const taskDir = join(rootDir, taskDirName);
     return taskDir;
 }
 async function getTaskIdFromBranch(branch = getCurrentBranch()) {
