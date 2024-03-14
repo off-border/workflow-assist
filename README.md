@@ -161,6 +161,11 @@ module.exports = {
     // where to keep the main repo copy. this will be a subdir in your rootDir
     originDir: '.origin',
 
+    tasks: {
+        // prefix to append to generated task dir (e.g. fe-TASK-1234)
+        directoryPrefix: 'fe-'
+    }
+
     // configure a new task branches creation and rebasing
     branches: {
         // the branch which task branches will be created from and rebased on
