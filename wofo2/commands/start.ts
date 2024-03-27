@@ -27,7 +27,7 @@ async function cloneOrUpdateRepo() {
         header('cloning origin repo');
         bash(`git clone ${repoUrl} ${originDir}`);
         bash(`git checkout -b ${baseBranch}`, { cwd: originDir });
-        bash(`git push --set-upstream origin ${baseBranch}`, {
+        bash(`git branch --set-upstream-to origin/${baseBranch} ${baseBranch}`, {
             cwd: originDir,
         });
     }
